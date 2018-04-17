@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using Agidea.Core.Interfaces;
+using Agidea.Core.Models;
 using Amazon.SQS;
 using Amazon.SQS.Model;
+using AutoMapper;
+using Message = Agidea.Core.Models.Message;
 
 namespace Agidea.MessageQueue
 {
     public class MessageQueue : IMessageQueue
     {
-        private AmazonSQSClient _sqsClient;
-        private readonly string ServiceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
-        private static string QueueOwnerAccountId = ConfigurationManager.AppSettings["QueueOwnerAccountId"];
+        private readonly IMapper _mapper;
+        private readonly AmazonSQSClient _sqsClient;
+        private static readonly string QueueOwnerAccountId = ConfigurationManager.AppSettings["QueueOwnerAccountId"];
 
-        public MessageQueue()
+        public MessageQueue(IMapper mapper)
         {
             if (_sqsClient == null)
             {
-                CreateClient();
+                var sqsConfig = new AmazonSQSConfig
+                {
+                    ServiceURL = ConfigurationManager.AppSettings["ServiceUrl"]
+                };
+
+                _sqsClient = new AmazonSQSClient(sqsConfig);
             }
-        }
 
-        public void CreateClient()
-        {
-            var sqsConfig = new AmazonSQSConfig
-            {
-                ServiceURL = ServiceUrl
-            };
-
-            _sqsClient = new AmazonSQSClient(sqsConfig);
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public string CreateQueue(string queueName)
@@ -74,36 +74,72 @@ namespace Agidea.MessageQueue
             return getQueueUrlResponse.HttpStatusCode.Equals(HttpStatusCode.OK) ? getQueueUrlResponse.QueueUrl : string.Empty;
         }
 
-        public string SendMessage(string queueUrl, string messageBody)
+        public bool SendMessages(string queueUrl, List<Mail> mails)
         {
-            var sendMessageRequest = new SendMessageRequest(queueUrl, messageBody);
-            var sendMessageResponse = _sqsClient.SendMessage(sendMessageRequest);
-            return sendMessageResponse.HttpStatusCode.Equals(HttpStatusCode.OK) ? sendMessageResponse.MessageId : string.Empty;
-        }
+            var entries = new List<SendMessageBatchRequestEntry>();
 
-        public bool DeleteMessage(string queueUrl, string receiptHandle)
-        {
-            var deleteMessageRequest = new DeleteMessageRequest
+            foreach (var mail in mails)
+            {
+                entries.Add(new SendMessageBatchRequestEntry
+                {
+                    MessageAttributes = new Dictionary<string, MessageAttributeValue>
+                    {
+                        {
+                            "To", new MessageAttributeValue
+                            {
+                                StringListValues = mail.To
+                            }
+                        },
+                        {
+                            "CC", new MessageAttributeValue
+                            {
+                                StringListValues = mail.CC
+                            }
+                        },
+                        {
+                            "BCC", new MessageAttributeValue
+                            {
+                                StringListValues = mail.BCC
+                            }
+                        },
+                        {
+                            "Subject", new MessageAttributeValue
+                            {
+                                StringValue = mail.Subject
+                            }
+                        },
+                        {
+                            "Body", new MessageAttributeValue
+                            {
+                                StringValue = mail.Body
+                            }
+                        }
+                    }
+                });
+            }
+
+            var sendMessageBatchRequest = new SendMessageBatchRequest
             {
                 QueueUrl = queueUrl,
-                ReceiptHandle = receiptHandle,
+                Entries = entries
             };
 
-            var deleteMessageResponse = _sqsClient.DeleteMessage(deleteMessageRequest);
-            return deleteMessageResponse.HttpStatusCode == HttpStatusCode.OK;
+            var sendMessageBatchResponse = _sqsClient.SendMessageBatch(sendMessageBatchRequest);
+
+            // TODO: Handle failures.
+
+            return sendMessageBatchResponse.HttpStatusCode.Equals(HttpStatusCode.OK);
         }
 
-        public bool DeleteMessages(string queueUrl)
+        public bool DeleteMessages(string queueUrl, List<Message> messages)
         {
-            var messages = ReceiveMessages(queueUrl);
-
             var entries = new List<DeleteMessageBatchRequestEntry>();
             foreach (var message in messages)
             {
                 entries.Add(new DeleteMessageBatchRequestEntry
                 {
-                    Id = message.Key,
-                    ReceiptHandle = message.Value
+                    Id = message.Id,
+                    ReceiptHandle = message.ReceiptHandle
                 });
             }
 
@@ -113,12 +149,14 @@ namespace Agidea.MessageQueue
             };
 
             var deleteMessageBatchResponse = _sqsClient.DeleteMessageBatch(deleteMessageBatchRequest);
+            
+            // TODO: Handle failures.
+            
             return deleteMessageBatchResponse.HttpStatusCode.Equals(HttpStatusCode.OK);
         }
 
-        public Dictionary<string, string> ReceiveMessages(string queueUrl)
+        public List<Message> ReceiveMessages(string queueUrl)
         {
-            var messages = new Dictionary<string, string>();
             var receiveMessageRequest = new ReceiveMessageRequest
             {
                 AttributeNames = new List<string> { "All" },
@@ -129,24 +167,7 @@ namespace Agidea.MessageQueue
             };
 
             var receiveMessageResponse = _sqsClient.ReceiveMessage(receiveMessageRequest);
-            if (!receiveMessageResponse.HttpStatusCode.Equals(HttpStatusCode.OK))
-            {
-                return messages;
-            }
-
-            foreach (var message in receiveMessageResponse.Messages)
-            {
-                messages.Add(message.MessageId, message.ReceiptHandle);
-            }
-
-            return messages;
-        }
-
-        public string SendMessages(string queueUrl)
-        {
-            ////var sendMessageBatchRequest = new SendMessageBatchRequest();
-            ////_sqsClient.SendMessageBatch(sendMessageBatchRequest);
-            throw new NotImplementedException();
+            return !receiveMessageResponse.HttpStatusCode.Equals(HttpStatusCode.OK) ? new List<Message>() : _mapper.Map<List<Message>>(receiveMessageResponse.Messages);
         }
 
         public List<string> ListQueues()

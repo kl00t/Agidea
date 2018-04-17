@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Agidea.Core.Models;
 
 namespace Agidea.Core.Interfaces
 {
@@ -10,15 +11,11 @@ namespace Agidea.Core.Interfaces
 
         string GetQueueUrl(string queueName);
 
-        string SendMessage(string queueUrl, string messageBody);
+        bool SendMessages(string queueUrl, List<Mail> emails);
 
-        string SendMessages(string queueUrl);
+        bool DeleteMessages(string queueUrl, List<Message> messages);
 
-        bool DeleteMessages(string queueUrl);
-
-        bool DeleteMessage(string queueUrl, string receiptHandle);
-
-        Dictionary<string, string> ReceiveMessages(string queueUrl);
+        List<Message> ReceiveMessages(string queueUrl);
 
         List<string> ListQueues();
     }

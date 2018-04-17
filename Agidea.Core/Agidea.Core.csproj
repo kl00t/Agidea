@@ -40,11 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\MailerException.cs" />
+    <Compile Include="Exceptions\MessageQueueException.cs" />
+    <Compile Include="Interfaces\IEmailRepository.cs" />
     <Compile Include="Interfaces\IMailer.cs" />
     <Compile Include="Interfaces\IMessageQueue.cs" />
     <Compile Include="Interfaces\ISmtpClient.cs" />
     <Compile Include="Interfaces\ISmtpEmailService.cs" />
     <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Queue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

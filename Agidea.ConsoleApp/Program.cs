@@ -7,7 +7,9 @@ namespace Agidea.ConsoleApp
     public class Program
     {
         public static IMessageQueue _messageQueue;
-       
+        public static IMailer _mailer;
+        public static IEmailRepository _emailRepository;
+        
         public static void Main(string[] args)
         {
             Setup();
@@ -16,7 +18,7 @@ namespace Agidea.ConsoleApp
 
         private static void Setup()
         {
-            IKernel kernel = new StandardKernel(new MessageQueueModule());
+            IKernel kernel = new StandardKernel(new BindingModule());
             _messageQueue = kernel.Get<IMessageQueue>();
         }
 
@@ -27,7 +29,7 @@ namespace Agidea.ConsoleApp
                 Console.WriteLine("Enter command:");
                 Console.WriteLine(Environment.NewLine +
                                   "(1) Create Queue " + Environment.NewLine +
-                                  "(2) Send Message " + Environment.NewLine +
+                                  "(2) Send Messages " + Environment.NewLine +
                                   "(3) Receive Messages " + Environment.NewLine +
                                   "(4) Delete Messages " + Environment.NewLine +
                                   "(5) Delete Queue " + Environment.NewLine +
@@ -46,7 +48,7 @@ namespace Agidea.ConsoleApp
                         CreateQueue();
                         break;
                     case "2":
-                        SendMessage();
+                        SendMessages();
                         break;
                     case "3":
                         ReceiveMessages();
@@ -92,13 +94,14 @@ namespace Agidea.ConsoleApp
             Console.WriteLine("Queue Url: " + queueUrl);
         }
 
-        private static void SendMessage()
+        private static void SendMessages()
         {
             var queueUrl = GetQueueUrl();
-            Console.WriteLine("Enter the message body");
-            var messageBody = Console.ReadLine();
-            var messageId = _messageQueue.SendMessage(queueUrl, messageBody);
-            Console.WriteLine("Message Id: " + messageId);
+            var mails = _emailRepository.GetEmails();
+            if (_messageQueue.SendMessages(queueUrl, mails))
+            {
+                Console.WriteLine("Messages sent to queue url: " + queueUrl);
+            }
         }
 
         private static void ReceiveMessages()
@@ -107,16 +110,17 @@ namespace Agidea.ConsoleApp
             var messages = _messageQueue.ReceiveMessages(queueUrl);
             foreach (var message in messages)
             {
-                Console.WriteLine("Message Id: " + message.Key);
+                Console.WriteLine("Message Id: " + message.Id);
             }
         }
 
         private static void DeleteMessages()
         {
             var queueUrl = GetQueueUrl();
-            if (_messageQueue.DeleteMessages(queueUrl))
+            var messages = _messageQueue.ReceiveMessages(queueUrl);
+            if (_messageQueue.DeleteMessages(queueUrl, messages))
             {
-                Console.WriteLine("Messages Deleted");
+                Console.WriteLine("Messages Deleted from queue url: " + queueUrl);
             }
         }
 

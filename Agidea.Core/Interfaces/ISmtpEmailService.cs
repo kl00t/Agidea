@@ -1,6 +1,9 @@
-﻿namespace Agidea.Core.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace Agidea.Core.Interfaces
 {
     public interface ISmtpEmailService
     {
+        
     }
 }

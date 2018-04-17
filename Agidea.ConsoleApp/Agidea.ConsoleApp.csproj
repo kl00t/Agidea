@@ -35,12 +35,16 @@
     <StartupObject>Agidea.ConsoleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,7 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageQueueModule.cs" />
+    <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="BindingModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +74,10 @@
     <ProjectReference Include="..\Agidea.MessageQueue\Agidea.MessageQueue.csproj">
       <Project>{ebfead05-01a4-4f58-92a2-884768dc2d84}</Project>
       <Name>Agidea.MessageQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Agidea.Repository\Agidea.Repository.csproj">
+      <Project>{6d63e069-378a-4943-804d-577686b6d711}</Project>
+      <Name>Agidea.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

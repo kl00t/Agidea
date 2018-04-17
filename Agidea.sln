@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.MessageQueue", "Agid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.Core", "Agidea.Core\Agidea.Core.csproj", "{E67E09E0-5986-49CB-B67B-7EB2223864A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.Repository", "Agidea.Repository\Agidea.Repository.csproj", "{6D63E069-378A-4943-804D-577686B6D711}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E67E09E0-5986-49CB-B67B-7EB2223864A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E67E09E0-5986-49CB-B67B-7EB2223864A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E67E09E0-5986-49CB-B67B-7EB2223864A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D63E069-378A-4943-804D-577686B6D711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D63E069-378A-4943-804D-577686B6D711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D63E069-378A-4943-804D-577686B6D711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D63E069-378A-4943-804D-577686B6D711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
