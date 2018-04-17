@@ -6,7 +6,7 @@ namespace Amazon.SQS.MessageQueue
     {
         public override void Load() 
         {
-            //Bind<IMessageQueue>().To<MessageQueue>();
+            Bind<IMessageQueue>().To<MessageQueue>();
         }
     }
 }

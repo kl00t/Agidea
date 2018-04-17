@@ -19,7 +19,7 @@ namespace Amazon.SQS.MessageQueue
 
         private static void Setup()
         {
-            IKernel kernel = new StandardKernel();
+            IKernel kernel = new StandardKernel(new MessageQueueModule());
             _messageQueue = kernel.Get<IMessageQueue>();
         }
 
@@ -76,49 +76,32 @@ namespace Amazon.SQS.MessageQueue
 
         private static void CreateQueue()
         {
-            Console.WriteLine("Enter the queue name");
-            _queueName = Console.ReadLine();
-            _queueUrl = _messageQueue.CreateQueue(_queueName);
-            Console.WriteLine("Queue URL: " + _queueUrl);
+
         }
 
         private static void GetQueueUrl()
         {
-            _queueUrl = _messageQueue.GetQueueUrl(_queueName, QueueOwnerAccountId);
-            Console.WriteLine("Queue URL: " + _queueUrl);
+
         }
 
         private static void SendMessage()
         {
-            Console.WriteLine("Enter the message body");
-            var messageBody = Console.ReadLine();
-            var messageId = _messageQueue.SendMessage(_queueUrl, messageBody);
-            Console.WriteLine("Message Id: " + messageId);
+
         }
 
         private static void ReceiveMessages()
         {
-            var messages = _messageQueue.ReceiveMessages(_queueUrl);
-            foreach (var message in messages)
-            {
-                Console.WriteLine("Message Id: " + message.Key);
-            }
+
         }
 
         private static void DeleteMessages()
         {
-            if (_messageQueue.DeleteMessages(_queueUrl))
-            {
-                Console.WriteLine("Messages Deleted");
-            }
+
         }
 
         private static void DeleteQueue()
         {
-            if (_messageQueue.DeleteQueue(_queueUrl))
-            {
-                Console.WriteLine("Message Queue Deleted");
-            }
+
         }
     }
 }
