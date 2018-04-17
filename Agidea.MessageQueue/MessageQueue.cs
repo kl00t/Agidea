@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
+using Agidea.Core.Interfaces;
+using Amazon.SQS;
 using Amazon.SQS.Model;
 
-namespace Amazon.SQS.MessageQueue
+namespace Agidea.MessageQueue
 {
     public class MessageQueue : IMessageQueue
     {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Amazon.SES.Mailer")]
+[assembly: AssemblyTitle("Agidea.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Amazon.SES.Mailer")]
+[assembly: AssemblyProduct("Agidea.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2badcec4-bdc5-4131-8e22-5297b8610676")]
+[assembly: Guid("e67e09e0-5986-49cb-b67b-7eb2223864a0")]
 
 // Version information for an assembly consists of the following four values:
 //

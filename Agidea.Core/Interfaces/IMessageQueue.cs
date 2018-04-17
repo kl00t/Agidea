@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Amazon.SQS.MessageQueue
+namespace Agidea.Core.Interfaces
 {
     public interface IMessageQueue
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using Amazon.SQS.MessageQueue;
+using Agidea.Core.Interfaces;
 using Ninject;
 
-namespace Amazon.ConsoleApp
+namespace Agidea.ConsoleApp
 {
     public class Program
     {
