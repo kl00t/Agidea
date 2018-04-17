@@ -8,9 +8,5 @@ namespace Agidea.Core.Interfaces
         List<Message> ReadFromQueue();
 
         bool DeleteFromQueue(List<Message> messages);
-
-        void Send();
-
-        void Send(List<Mail> mail);
     }
 }

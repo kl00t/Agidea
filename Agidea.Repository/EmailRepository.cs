@@ -17,9 +17,12 @@ namespace Agidea.Repository
             {
                 new Mail
                 {
-                    To = { "scott_vaughan@hotmail.com" },
-                    CC = { string.Empty },
-                    BCC = { string.Empty },
+                    To = new List<string>
+                    {
+                        "scott_vaughan@hotmail.com"
+                    },
+                    CC = new List<string>(),
+                    BCC = new List<string>(),
                     Subject = "Hello World!",
                     Body = "Hello World!"
                 }

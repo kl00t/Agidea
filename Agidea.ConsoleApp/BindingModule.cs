@@ -1,7 +1,4 @@
-﻿using System;
-using System.Configuration;
-using Agidea.Core.Interfaces;
-using Agidea.Mailer;
+﻿using Agidea.Core.Interfaces;
 using Agidea.Repository;
 using Ninject.Modules;
 
