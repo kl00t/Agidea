@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazon.SQS.MessageQueue", "Amazon.SQS.MessageQueue\Amazon.SQS.MessageQueue.csproj", "{009CE603-0868-41FD-BBF2-08A6FB72502E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazon.ConsoleApp", "Amazon.SQS.MessageQueue\Amazon.ConsoleApp.csproj", "{009CE603-0868-41FD-BBF2-08A6FB72502E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazon.SES.Mailer", "Amazon.SES.Mailer\Amazon.SES.Mailer.csproj", "{2BADCEC4-BDC5-4131-8E22-5297B8610676}"
 EndProject

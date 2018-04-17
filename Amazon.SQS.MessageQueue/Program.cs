@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Configuration;
-using Amazon.SQS.Model;
+using Amazon.SQS.MessageQueue;
 using Ninject;
 
-namespace Amazon.SQS.MessageQueue
+namespace Amazon.ConsoleApp
 {
     public class Program
     {
