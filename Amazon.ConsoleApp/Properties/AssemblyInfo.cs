@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Amazon.ConsoleApp")]
+[assembly: AssemblyTitle("Amazon.SQS.MessageQueue")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Amazon.ConsoleApp")]
+[assembly: AssemblyProduct("Amazon.SQS.MessageQueue")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dfc8db87-97dd-4543-b194-cabf06d4960d")]
+[assembly: Guid("009ce603-0868-41fd-bbf2-08a6fb72502e")]
 
 // Version information for an assembly consists of the following four values:
 //
