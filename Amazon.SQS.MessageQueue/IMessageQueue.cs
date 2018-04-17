@@ -4,20 +4,22 @@ namespace Amazon.SQS.MessageQueue
 {
     public interface IMessageQueue
     {
-        //string CreateQueue(string queueName);
-       
-        //bool DeleteQueue(string queueUrl);
+        string CreateQueue(string queueName);
 
-        //string GetQueueUrl(string queueName, string queueOwnerAccountId);
+        bool DeleteQueue(string queueUrl);
 
-        //string SendMessage(string queueUrl, string messageBody);
+        string GetQueueUrl(string queueName);
 
-        //string SendMessages(string queueUrl);
+        string SendMessage(string queueUrl, string messageBody);
 
-        //bool DeleteMessages(string queueUrl);
+        string SendMessages(string queueUrl);
 
-        //bool DeleteMessage(string queueUrl, string receiptHandle);
+        bool DeleteMessages(string queueUrl);
 
-        //Dictionary<string, string> ReceiveMessages(string queueUrl);
+        bool DeleteMessage(string queueUrl, string receiptHandle);
+
+        Dictionary<string, string> ReceiveMessages(string queueUrl);
+
+        List<string> ListQueues();
     }
 }
