@@ -7,7 +7,6 @@ using Agidea.Core.Models;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using AutoMapper;
-using Newtonsoft.Json;
 using Message = Agidea.Core.Models.Message;
 
 namespace Agidea.MessageQueue
@@ -46,20 +45,30 @@ namespace Agidea.MessageQueue
             return getQueueUrlResponse.HttpStatusCode.Equals(HttpStatusCode.OK) ? getQueueUrlResponse.QueueUrl : string.Empty;
         }
 
-        private string ConvertToJson(Mail mail)
-        {
-            return JsonConvert.SerializeObject(mail);
-        }
-
-        public bool SendMessages(List<Mail> mails)
+        public bool SendMessages(List<Message> messages)
         {
             var queueUrl = GetQueueUrl(MailerQueueName);
 
             var entries = new List<SendMessageBatchRequestEntry>();
 
-            foreach (var mail in mails)
+            foreach (var message in messages)
             {
-                entries.Add(new SendMessageBatchRequestEntry(Guid.NewGuid().ToString(), ConvertToJson(mail)));
+                entries.Add(new SendMessageBatchRequestEntry
+                {
+                    Id = message.Id.ToString(),
+                    MessageBody = message.Body,
+                    MessageAttributes = new Dictionary<string, MessageAttributeValue>
+                    {
+                        {
+                            "MessageType",
+                            new MessageAttributeValue
+                            {
+                                StringValue = MessageType.Email.ToString()
+                            }
+                        }
+                    }
+                }
+                );
             }
 
             var sendMessageBatchRequest = new SendMessageBatchRequest
@@ -83,7 +92,7 @@ namespace Agidea.MessageQueue
             {
                 entries.Add(new DeleteMessageBatchRequestEntry
                 {
-                    Id = message.Id,
+                    Id = message.Id.ToString(),
                     ReceiptHandle = message.ReceiptHandle,
                 });
             }

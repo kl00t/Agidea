@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Agidea.Core.Interfaces;
+using Agidea.Core.Models;
 using Ninject;
 
 namespace Agidea.ConsoleApp
@@ -60,7 +62,27 @@ namespace Agidea.ConsoleApp
         private static void SendMessages()
         {
             var mails = _emailRepository.GetEmails();
-            if (_messageQueue.SendMessages(mails))
+
+            var messages = new List<Message>();
+
+            foreach (var mail in mails)
+            {
+                messages.Add(new Message
+                {
+                    Id = Guid.NewGuid(),
+                    Body = Core.Helper.Converter.ConvertToJson(mail),
+                    MessageType = MessageType.Email,
+                    Attributes = new Dictionary<string, string>
+                    {
+                        {
+                            typeof(MessageType).ToString() , 
+                            MessageType.Email.ToString()
+                        }
+                    }
+                });
+            }
+
+            if (_messageQueue.SendMessages(messages))
             {
                 Console.WriteLine("Messages sent to queue");
             }

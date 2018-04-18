@@ -7,7 +7,7 @@ namespace Agidea.Core.Interfaces
     {
         string GetQueueUrl(string queueName);
 
-        bool SendMessages(List<Mail> emails);
+        bool SendMessages(List<Message> emails);
 
         bool DeleteMessages(List<Message> messages);
 
