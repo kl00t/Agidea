@@ -47,6 +47,7 @@
     <Compile Include="Exceptions\MessageQueueException.cs" />
     <Compile Include="Helper\Converter.cs" />
     <Compile Include="Interfaces\IEmailRepository.cs" />
+    <Compile Include="Interfaces\IFileStorageProvider.cs" />
     <Compile Include="Interfaces\IMailer.cs" />
     <Compile Include="Interfaces\IMessageQueue.cs" />
     <Compile Include="Interfaces\ISmtpClient.cs" />

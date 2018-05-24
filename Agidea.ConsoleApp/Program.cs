@@ -10,7 +10,7 @@ namespace Agidea.ConsoleApp
     {
         public static IMessageQueue _messageQueue;
         public static IEmailRepository _emailRepository;
-        
+        public static IFileStorageProvider _bucket;
         public static void Main(string[] args)
         {
             Setup();
@@ -22,6 +22,7 @@ namespace Agidea.ConsoleApp
             IKernel kernel = new StandardKernel(new BindingModule());
             _messageQueue = kernel.Get<IMessageQueue>();
             _emailRepository = kernel.Get<IEmailRepository>();
+            _bucket = kernel.Get<IFileStorageProvider>();
         }
 
         private static void Start()
@@ -32,7 +33,10 @@ namespace Agidea.ConsoleApp
                 Console.WriteLine(Environment.NewLine +
                                   "(1) Send Test Messages To Queue" + Environment.NewLine +
                                   "(2) Receive Messages From Queue" + Environment.NewLine +
-                                  "(3) Delete Messages From Queue" + Environment.NewLine);
+                                  "(3) Delete Messages From Queue" + Environment.NewLine +
+                                  "(4) List Files In Bucket" + Environment.NewLine +
+                                  "(5) Get File From Bucket" + Environment.NewLine);
+
                 var input = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(input))
@@ -51,12 +55,28 @@ namespace Agidea.ConsoleApp
                     case "3":
                         DeleteMessages();
                         break;
+                    case "4":
+                        ListFiles();
+                        break;
+                    case "5":
+                        GetFile();
+                        break;
                     default:
                         Console.WriteLine("Invalid menu selection.");
                         continue;
                 }
 
             }
+        }
+
+        private static void GetFile()
+        {
+            _bucket.GetFile("Monthly Footfall Report-Airport Retail Park  Coventry-September 2013.pdf");
+        }
+
+        private static void ListFiles()
+        {
+            _bucket.ListFiles();
         }
 
         private static void SendMessages()

@@ -79,6 +79,10 @@
       <Project>{6d63e069-378a-4943-804d-577686b6d711}</Project>
       <Name>Agidea.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Agidea.Storage\Agidea.Storage.csproj">
+      <Project>{37f2c540-f375-4b2d-86f4-1de30de1d2fc}</Project>
+      <Name>Agidea.Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

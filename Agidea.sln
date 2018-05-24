@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.Core", "Agidea.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.Repository", "Agidea.Repository\Agidea.Repository.csproj", "{6D63E069-378A-4943-804D-577686B6D711}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agidea.Storage", "Agidea.Storage\Agidea.Storage.csproj", "{37F2C540-F375-4B2D-86F4-1DE30DE1D2FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6D63E069-378A-4943-804D-577686B6D711}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D63E069-378A-4943-804D-577686B6D711}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D63E069-378A-4943-804D-577686B6D711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F2C540-F375-4B2D-86F4-1DE30DE1D2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F2C540-F375-4B2D-86F4-1DE30DE1D2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F2C540-F375-4B2D-86F4-1DE30DE1D2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F2C540-F375-4B2D-86F4-1DE30DE1D2FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
