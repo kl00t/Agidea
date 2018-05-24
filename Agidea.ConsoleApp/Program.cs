@@ -35,7 +35,8 @@ namespace Agidea.ConsoleApp
                                   "(2) Receive Messages From Queue" + Environment.NewLine +
                                   "(3) Delete Messages From Queue" + Environment.NewLine +
                                   "(4) List Files In Bucket" + Environment.NewLine +
-                                  "(5) Get File From Bucket" + Environment.NewLine);
+                                  "(5) Get File From Bucket" + Environment.NewLine +
+                                  "(6) Get File Url" + Environment.NewLine);
 
                 var input = Console.ReadLine();
 
@@ -61,6 +62,9 @@ namespace Agidea.ConsoleApp
                     case "5":
                         GetFile();
                         break;
+                    case "6":
+                        GetFileUrl();
+                        break;
                     default:
                         Console.WriteLine("Invalid menu selection.");
                         continue;
@@ -72,6 +76,12 @@ namespace Agidea.ConsoleApp
         private static void GetFile()
         {
             _bucket.GetFile("Monthly Footfall Report-Airport Retail Park  Coventry-September 2013.pdf");
+        }
+
+        private static void GetFileUrl()
+        {
+            var fileUrl = _bucket.GetFileUrl("Monthly Footfall Report-Airport Retail Park  Coventry-September 2013.pdf");
+            Console.WriteLine("FileUrl: {0}", fileUrl);
         }
 
         private static void ListFiles()

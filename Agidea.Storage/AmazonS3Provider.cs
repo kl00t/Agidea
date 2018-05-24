@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using System.Text;
+using System.IO;
 using Agidea.Core.Interfaces;
 using Amazon;
 using Amazon.S3;
@@ -11,6 +11,7 @@ namespace Agidea.Storage
     public class AmazonS3Provider : IFileStorageProvider
     {
         private static readonly string bucketName = ConfigurationManager.AppSettings["BucketName"];
+        private const string folder = "C:\\temp";
 
         public void GetFile(string fileName)
         {
@@ -20,6 +21,27 @@ namespace Agidea.Storage
         public void ListFiles()
         {
             ListObjects();
+        }
+
+        public string GetFileUrl(string fileName)
+        {
+            return GetObjectUrl(fileName);
+        }
+
+        private static string GetObjectUrl(string fileName)
+        {
+            using (var s3Client = new AmazonS3Client(RegionEndpoint.EUWest1))
+            {
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = bucketName,
+                    Key = fileName,
+                    Expires = DateTime.Now.AddHours(1),
+                    Protocol = Protocol.HTTP
+                };
+
+                return s3Client.GetPreSignedURL(request);
+            }
         }
 
         private static void ListObjects()
@@ -62,38 +84,38 @@ namespace Agidea.Storage
                     };
 
                     var getObjectResponse = s3Client.GetObject(getObjectRequest);
-                    var metadataCollection = getObjectResponse.Metadata;
+                    //var metadataCollection = getObjectResponse.Metadata;
 
-                    //getObjectResponse.WriteResponseStreamToFile(fileName, true);
+                    getObjectResponse.WriteResponseStreamToFile(Path.Combine(folder, fileName), true);
 
-                    var keys = metadataCollection.Keys;
-                    foreach (var key in keys)
-                    {
-                        Console.WriteLine("Metadata key: {0}, value: {1}", key, metadataCollection[key]);
-                    }
+                    //var keys = metadataCollection.Keys;
+                    //foreach (var key in keys)
+                    //{
+                    //    Console.WriteLine("Metadata key: {0}, value: {1}", key, metadataCollection[key]);
+                    //}
 
-                    using (var stream = getObjectResponse.ResponseStream)
-                    {
-                        var length = stream.Length;
-                        var bytes = new byte[length];
-                        var bytesToRead = (int) length;
-                        var numBytesRead = 0;
-                        do
-                        {
-                            var chunkSize = 1000;
-                            if (chunkSize > bytesToRead)
-                            {
-                                chunkSize = bytesToRead;
-                            }
+                    //using (var stream = getObjectResponse.ResponseStream)
+                    //{
+                    //    var length = stream.Length;
+                    //    var bytes = new byte[length];
+                    //    var bytesToRead = (int) length;
+                    //    var numBytesRead = 0;
+                    //    do
+                    //    {
+                    //        var chunkSize = 1000;
+                    //        if (chunkSize > bytesToRead)
+                    //        {
+                    //            chunkSize = bytesToRead;
+                    //        }
 
-                            var n = stream.Read(bytes, numBytesRead, chunkSize);
-                            numBytesRead += n;
-                            bytesToRead -= n;
-                        } while (bytesToRead > 0);
+                    //        var n = stream.Read(bytes, numBytesRead, chunkSize);
+                    //        numBytesRead += n;
+                    //        bytesToRead -= n;
+                    //    } while (bytesToRead > 0);
 
-                        var contents = Encoding.UTF8.GetString(bytes);
-                        Console.WriteLine(contents);
-                    }
+                    //    var contents = Encoding.UTF8.GetString(bytes);
+                    //    Console.WriteLine(contents);
+                    //}
                 }
                 catch (AmazonS3Exception e)
                 {
